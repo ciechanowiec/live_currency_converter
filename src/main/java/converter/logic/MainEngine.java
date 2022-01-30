@@ -3,8 +3,8 @@ package converter.logic;
 import java.time.LocalDate;
 
 import converter.Controller;
+import converter.Currency;
 import converter.logic.utils.Converter;
-import converter.logic.utils.Currency;
 import converter.logic.utils.HTTPDriver;
 import converter.logic.utils.RetrievedData;
 import converter.logic.utils.RetrievedDataParser;
@@ -14,7 +14,7 @@ public class MainEngine {
 
     private Controller controller;
     HTTPDriver httpDriver;
-    RetrievedDataParser retrievedResponseParser;
+    RetrievedDataParser retrievedDataParser;
     Converter converter;
     RetrievedData retrievedDataFROM;
     RetrievedData retrievedDataTO;
@@ -22,12 +22,13 @@ public class MainEngine {
     public MainEngine(Controller controller) {
         this.controller = controller;
         this.httpDriver = new HTTPDriver();
-        this.retrievedResponseParser = new RetrievedDataParser();
+        this.retrievedDataParser = new RetrievedDataParser();
         this.converter = new Converter();
     }
 
     public void processConvertActionInLogic(Currency currencyCodeFROM, Currency currencyCodeTO, 
-                                            double amount, LocalDate inquiredDate) {
+                                            double amount, LocalDate inquiredDate) {        
+        //TODO: handle the same currency codes
         retrieveData(currencyCodeFROM, currencyCodeTO, inquiredDate);
         adjustRetrievedDataPLN();
         dispatchFurtherFlow(amount);
@@ -39,8 +40,8 @@ public class MainEngine {
         this.retrievedDataTO = httpDriver.retrieveData(currencyCodeTO, inquiredDate);        
     }
 
-    /* Because of the specific of the data on exchange rates provided by 
-       National Bank of Poland the exchangeRateDate for PLN is always the same as inquired
+    /* Because of the specific of the data on exchange rates provided by National
+       Bank of Poland the exchangeRateDate for PLN is always the same as the inquiredDate
        and the responseType is always 'USUAL'. To avoid inconsistency with retrieved data
        for the opposite currency the mentioned parameters for PLN are modified here to be
        the same as the parameters of the opposite currency. */
@@ -59,30 +60,32 @@ public class MainEngine {
         if (retrievedDataFROM.getResponseType() == ResponseType.USUAL 
             && retrievedDataTO.getResponseType() == ResponseType.USUAL
             && retrievedDataFROM.getExchangeRateDate().equals(retrievedDataTO.getExchangeRateDate())) {                
-                showUsualResultInGUI(amount);
+            showUsualResultInGUI(amount);
         } else if (retrievedDataFROM.getResponseType() == ResponseType.BACKWARD 
                    && retrievedDataTO.getResponseType() == ResponseType.BACKWARD
                    && retrievedDataFROM.getExchangeRateDate().equals(retrievedDataTO.getExchangeRateDate())){                
-                showBackwardResultInGUI(amount);
+            showBackwardResultInGUI(amount);
         } else {
-                showFailedResultInGUI();
+            showFailedResultInGUI();
         }
     }
 
     private void showUsualResultInGUI(double amount) {        
-        double result = getConvertedValue(amount);
-        LocalDate responseDate = retrievedDataFROM.getExchangeRateDate();
         Currency currencyCodeFROM = retrievedDataFROM.getCurrencyCode();
         Currency currencyCodeTO = retrievedDataTO.getCurrencyCode();
-        this.controller.showUsualResultInGUI(amount, result, responseDate, currencyCodeFROM, currencyCodeTO);
+        LocalDate responseDate = retrievedDataFROM.getExchangeRateDate();
+        double result = getConvertedValue(amount);
+        this.controller.showUsualResultInGUI(currencyCodeFROM, currencyCodeTO, amount,
+                                             responseDate, result);
     }
 
     private void showBackwardResultInGUI(double amount) {
-        double result = getConvertedValue(amount);
-        LocalDate responseDate = retrievedDataFROM.getExchangeRateDate();
         Currency currencyCodeFROM = retrievedDataFROM.getCurrencyCode();
         Currency currencyCodeTO = retrievedDataTO.getCurrencyCode();
-        this.controller.showBackwardResultInGUI(amount, result, responseDate, currencyCodeFROM, currencyCodeTO);
+        LocalDate responseDate = retrievedDataFROM.getExchangeRateDate();
+        double result = getConvertedValue(amount);
+        this.controller.showBackwardResultInGUI(currencyCodeFROM, currencyCodeTO, amount,
+                                                responseDate, result);
     }
 
     private void showFailedResultInGUI() {
@@ -90,8 +93,8 @@ public class MainEngine {
     }
 
     private double getConvertedValue(double amount) {
-        double currencyRateFROM = retrievedResponseParser.getCurrencyRate(retrievedDataFROM.getResponseBody());
-        double currencyRateTO = retrievedResponseParser.getCurrencyRate(retrievedDataTO.getResponseBody());
+        double currencyRateFROM = retrievedDataParser.getCurrencyRate(retrievedDataFROM);
+        double currencyRateTO = retrievedDataParser.getCurrencyRate(retrievedDataTO);
         return converter.convert(currencyRateFROM, currencyRateTO, amount);
     }
     

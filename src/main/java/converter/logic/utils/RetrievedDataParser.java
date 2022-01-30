@@ -11,11 +11,11 @@ import org.json.simple.parser.ParseException;
 
 public class RetrievedDataParser {    
     
-    public double getCurrencyRate(String retrievedData) {
+    public double getCurrencyRate(RetrievedData retrievedData) {
         double currencyRate = 0;
-        Object jsonObjectRaw = null;
+        Object jsonObjectRaw = null;        
         try {
-            jsonObjectRaw = new JSONParser().parse(retrievedData);
+            jsonObjectRaw = new JSONParser().parse(retrievedData.getResponseBody());
         } catch (ParseException e) {            
             e.printStackTrace();
         }
@@ -25,10 +25,12 @@ public class RetrievedDataParser {
         Iterator iteratorOverRates = rates.iterator();
 
         while (iteratorOverRates.hasNext()) {
-            Iterator<Entry> iteratorOverRatesEntries = ((Map) iteratorOverRates.next()).entrySet().iterator();
+            Iterator<Entry> iteratorOverRatesEntries = ((Map) iteratorOverRates.next())
+                                                                               .entrySet()
+                                                                               .iterator();
             while (iteratorOverRatesEntries.hasNext()) {
                 Entry pair = iteratorOverRatesEntries.next();
-                String dataKey = (String) pair.getKey();                
+                String dataKey = (String) pair.getKey();           
                 if (dataKey.equals("mid")) {
                     currencyRate = (double) pair.getValue();                    
                 }
@@ -36,6 +38,5 @@ public class RetrievedDataParser {
         }
         return currencyRate;
     }
-
 
 }

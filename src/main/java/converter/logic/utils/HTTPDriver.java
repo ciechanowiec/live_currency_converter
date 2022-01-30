@@ -11,6 +11,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 
+import converter.Currency;
 import converter.logic.utils.RetrievedData.ResponseType;
 
 public class HTTPDriver {
@@ -81,9 +82,9 @@ public class HTTPDriver {
 
     private void buildRequest(Currency currencyCode, LocalDate requestedDate) throws URISyntaxException {
         this.request = HttpRequest.newBuilder()
-                .uri(createURI(currencyCode, requestedDate))
-                .GET()
-                .build();
+                                  .uri(createURI(currencyCode, requestedDate))
+                                  .GET()
+                                  .build();
     }
 
     private URI createURI(Currency currencyCode, LocalDate requestedDate) throws URISyntaxException {

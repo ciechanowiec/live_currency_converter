@@ -2,6 +2,8 @@ package converter.logic.utils;
 
 import java.time.LocalDate;
 
+import converter.Currency;
+
 public class RetrievedData {
 
     public enum ResponseType {
@@ -13,7 +15,8 @@ public class RetrievedData {
     private ResponseType responseType;
     private LocalDate exchangeRateDate;
 
-    public RetrievedData(Currency currencyCode, String responseBody, ResponseType responseType, LocalDate exchangeRateDate) {
+    public RetrievedData(Currency currencyCode, String responseBody, 
+                         ResponseType responseType, LocalDate exchangeRateDate) {
         this.currencyCode = currencyCode;
         this.responseBody = responseBody;
         this.responseType = responseType;

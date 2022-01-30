@@ -1,5 +1,4 @@
-package converter.logic.utils;
-
+package converter;
 
 public enum Currency {
     AUD("Australian dollar"),
@@ -44,15 +43,36 @@ public enum Currency {
     private Currency(String description) {
         this.description = description;
     }
-
-    //TODO: needed?
-    public static Currency[] getAllEnums() {
+    
+    public static Currency[] getAllCurrencies() {
         return Currency.class.getEnumConstants();
     }
 
-    //TODO: needed?
-    public String getDescription() {
+    public static String[] getAllFullRepresentations() {
+        Currency[] allEnums = Currency.getAllCurrencies();
+        String[] allFullRepresentations = new String[allEnums.length];
+        for (int i = 0; i < allEnums.length; i++) {
+            allFullRepresentations[i] = allEnums[i].getFullRepresentation();
+        }
+        return allFullRepresentations;
+    }
+
+    public static Currency getCurrencyByFullRepresentation(String fullRepresentation) {
+        Currency[] allCurrencies = Currency.getAllCurrencies();
+        for (int i = 0; i < allCurrencies.length; i++) {
+            if (allCurrencies[i].getFullRepresentation().equals(fullRepresentation)) {
+                return allCurrencies[i];
+            }
+        }
+        throw new IllegalArgumentException("The currency with searched full representation doesn't exist.");
+    }
+    
+    private String getDescription() {        
         return this.description;
+    }
+
+    public String getFullRepresentation() {
+        return String.format("%s - %s", this.toString(), this.getDescription());
     }
 
 }
