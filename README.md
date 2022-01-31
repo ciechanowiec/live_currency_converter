@@ -51,7 +51,7 @@ The program is divided into three parts: front-end (graphical user interface), b
 ## National Bank of Poland API
 1. Official description of NBP’s API used by the program is published here: http://api.nbp.pl/en.html
 
-2. The program retrieves data from NBP by HTTP in JSON format.
+2. The program retrieves data from NBP via HTTP in JSON format.
 
 ## Screenshots
 <kbd><img src="!presentation/gui_screenshots/1.png"></kbd><br/><br/>
