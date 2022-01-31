@@ -67,7 +67,7 @@
  * NBP’s server is established at the back-end level.
  * 
  * ## National Bank of Poland API
- * 1. The official description of NBP’s API used by the program is published here: http://api.nbp.pl/en.html
+ * 1. Official description of NBP’s API used by the program is published here: http://api.nbp.pl/en.html
  * 
  * 2. The program retrieves data from NBP by HTTP in JSON format.
  * 
