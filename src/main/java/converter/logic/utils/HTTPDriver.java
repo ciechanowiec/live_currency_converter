@@ -11,7 +11,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 
-import converter.Currency;
+import converter.controller.Currency;
 import converter.logic.utils.RetrievedData.ResponseType;
 
 public class HTTPDriver {

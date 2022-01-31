@@ -1,4 +1,4 @@
-package converter;
+package converter.controller;
 
 public enum Currency {
     AUD("Australian dollar"),

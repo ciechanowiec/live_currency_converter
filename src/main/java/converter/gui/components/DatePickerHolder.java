@@ -1,21 +1,11 @@
-package converter.gui.utils;
+package converter.gui.components;
 
 import javax.swing.JPanel;
 
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.util.Calendar;
-import java.util.Date;
-
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
 
 import com.github.lgooddatepicker.components.DatePicker;
 import com.github.lgooddatepicker.components.DatePickerSettings;
@@ -55,7 +45,5 @@ public class DatePickerHolder extends JPanel {
     public LocalDate getDate() {
         return this.datePicker.getDate();
     }
-
-
     
 }

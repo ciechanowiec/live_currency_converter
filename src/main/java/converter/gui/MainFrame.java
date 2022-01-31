@@ -3,13 +3,12 @@ package converter.gui;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
-import java.awt.Color;
+import java.time.LocalDate;
 
-import javax.swing.BoxLayout;
-
-import converter.Controller;
-import converter.gui.screens.Footer;
-import converter.gui.screens.MainScreen;
+import converter.controller.Controller;
+import converter.controller.Currency;
+import converter.gui.components.Footer;
+import converter.gui.components.MainScreen;
 
 public class MainFrame extends JFrame {
     
@@ -36,8 +35,7 @@ public class MainFrame extends JFrame {
         this.setResizable(false);        
         this.setSize(650, 789);
         this.setLayout(null);
-        this.setLocationRelativeTo(null);
-        // this.getContentPane().setBackground(Color.GRAY);
+        this.setLocationRelativeTo(null);        
         setMainFrameIcon();
     }
 
@@ -45,5 +43,27 @@ public class MainFrame extends JFrame {
         String iconURI = "src/main/resources/icon.png";
         ImageIcon icon = new ImageIcon(iconURI);
         this.setIconImage(icon.getImage());
+    }
+
+    public void processConvertActionInLogic(Currency currencyCodeFROM, Currency currencyCodeTO, 
+                                            double amount, LocalDate inquiredDate) {
+        this.controller.processConvertActionInLogic(currencyCodeFROM, currencyCodeTO,
+                                                    amount, inquiredDate);
+    }
+
+    public void showUsualResultInGUI(Currency currencyCodeFROM, Currency currencyCodeTO,
+                                     double amount, LocalDate responseDate, double result) {
+        this.mainScreen.showUsualResultInGUI(currencyCodeFROM, currencyCodeTO,
+                                             amount, responseDate, result);
+    }
+
+    public void showBackwardResultInGUI(Currency currencyCodeFROM, Currency currencyCodeTO,
+                                        double amount, LocalDate responseDate, double result) {        
+        this.mainScreen.showBackwardResultInGUI(currencyCodeFROM, currencyCodeTO,
+                                                amount, responseDate, result);
+    }
+
+    public void showFailedResultInGUI() {
+        this.mainScreen.showFailedResultInGUI();
     }
 }

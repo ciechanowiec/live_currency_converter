@@ -7,7 +7,7 @@ public abstract class MessagesFactory {
 
     public static enum MessageType {
         USUAL, BACKWARD, FAILED,
-        INVALID_AMOUNT_GENERAL, INVALID_AMOUNT_BIG
+        INVALID_AMOUNT_GENERAL, INVALID_AMOUNT_BIG, WELCOME
     }
 
     public static String getMessage(LocalDate responseDate, MessageType messageType) {
@@ -22,6 +22,8 @@ public abstract class MessagesFactory {
                 return getInvalidAmountGeneralMessage();
             case INVALID_AMOUNT_BIG:
                 return getInvalidAmountBigMessage();
+            case WELCOME:
+                return getWelcomeMessage();
             default:
                 throw new IllegalArgumentException("Provided message type doesn't exist.");
         }
@@ -41,7 +43,7 @@ public abstract class MessagesFactory {
         return String.format("""
                              <html><center><div style='font-size: 13px; font-family: Arial;'>
                              National Bank of Poland hasn’t published the exchange<br>
-                             rate for the inquired day and for the inquired currencies. <br>
+                             rate for the inquired day for the inquired currencies. <br>
                              The previous available exchange rate was released <br>
                              on <b>%s</b>. The result of the conversion for that day is:
                              </div></center></html>                 
@@ -52,7 +54,7 @@ public abstract class MessagesFactory {
         return """
                <html><center><div style='font-size: 13px; font-family: Arial;'>
                National Bank of Poland hasn’t published the exchange<br>
-               rate for the inquired day and for the inquired currencies. <br>
+               rate for the inquired day for the inquired currencies. <br>
                Neither has the exchange rate been published in<br>
                the period of 5 days preceding the inquired day.
                </div></center></html>                                    
@@ -74,6 +76,14 @@ public abstract class MessagesFactory {
                <br>Too big input amount.<br>
                The program cannot proceed with conversion.<br>
                </div></center></html>                     
+               """;
+    }
+
+    private static String getWelcomeMessage() {
+        return """
+               <html><center><div style='font-size: 13px; font-family: Arial;'>
+               <br><br>Welcome to Live Currency Converter!<br>
+               </div></center></html>        
                """;
     }
         

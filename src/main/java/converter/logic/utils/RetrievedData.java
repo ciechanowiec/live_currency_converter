@@ -2,7 +2,7 @@ package converter.logic.utils;
 
 import java.time.LocalDate;
 
-import converter.Currency;
+import converter.controller.Currency;
 
 public class RetrievedData {
 

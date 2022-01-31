@@ -2,8 +2,8 @@ package converter.logic;
 
 import java.time.LocalDate;
 
-import converter.Controller;
-import converter.Currency;
+import converter.controller.Controller;
+import converter.controller.Currency;
 import converter.logic.utils.Converter;
 import converter.logic.utils.HTTPDriver;
 import converter.logic.utils.RetrievedData;
@@ -27,8 +27,7 @@ public class MainEngine {
     }
 
     public void processConvertActionInLogic(Currency currencyCodeFROM, Currency currencyCodeTO, 
-                                            double amount, LocalDate inquiredDate) {        
-        //TODO: handle the same currency codes
+                                            double amount, LocalDate inquiredDate) {                
         retrieveData(currencyCodeFROM, currencyCodeTO, inquiredDate);
         adjustRetrievedDataPLN();
         dispatchFurtherFlow(amount);
